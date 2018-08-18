@@ -1,7 +1,7 @@
 test: ansi.o htc_ansi.o
-	cc -o $@ $^
+	gcc -o $@ $^
 	./$@
 
 %.o: %.c
-	cc -c $<
+	gcc -c $<
 
