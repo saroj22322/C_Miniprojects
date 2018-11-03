@@ -32,7 +32,7 @@ int htc_gfs(char ch[],int,int);
 int htc_pfs(char cha[],int,int,char);
 int htc_mmfs(char hair[],int,int,int,char,int pos[]);
 
-main()
+int main()
 {
 	start:
 	system("cls");
@@ -52,6 +52,7 @@ main()
 	}
 	char conf=getch();
 	if(conf!='n') goto start;
+	return EXIT_SUCCESS;
 }
 
 int htc_gfs(char ch[],int x1,int y1)
