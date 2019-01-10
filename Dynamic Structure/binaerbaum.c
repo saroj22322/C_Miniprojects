@@ -31,7 +31,7 @@ knote* addNodes(knote* ptr,int val) {
 
 void listNodes_struct(knote* ptr) {
 	if(ptr != NULL) {
-		printf("%d\n",ptr->wert );
+		printf("%d ",ptr->wert );
 		listNodes_struct(ptr->links);
 		listNodes_struct(ptr->rechts);
 	}
@@ -40,8 +40,16 @@ void listNodes_struct(knote* ptr) {
 void listNodes(knote* ptr) {
 	if(ptr != NULL) {
 		listNodes(ptr->links);
-		printf("%d\n",ptr->wert );
+		printf("%d ",ptr->wert );
 		listNodes(ptr->rechts);
+	}
+}
+
+void listNodes_bottomToTop(knote* ptr) {
+	if(ptr != NULL) {
+		listNodes_bottomToTop(ptr->links);
+		listNodes_bottomToTop(ptr->rechts);
+		printf("%d ",ptr->wert );
 	}
 }
 
@@ -97,11 +105,12 @@ void loeschenNode(knote** zeiger, int val) {
 	} else {
 		loeschenNode(&((*zeiger)->rechts),val);
 	}
-}	
+}
+	
 
 int main(int argc, char* argv[]) {
 	wurzel = NULL;
-	int arr[] = {50,20,90,10,40,70,100,30,60,80,85,82,88,65};
+	int arr[] = {50,20,90,10,40,70,100,30,60,80,85,82,88,65,75};
 	for (int i = 0; i < sizeof(arr)/sizeof(arr[i]); ++i)
 	{
 		wurzel = addNodes(wurzel,arr[i]);
@@ -110,10 +119,15 @@ int main(int argc, char* argv[]) {
 	printf("\n");
 	listNodes_struct(wurzel);
 	printf("\n");
+	listNodes_bottomToTop(wurzel);
+	printf("\n");
 	loeschenNode(&(wurzel),70);
 	listNodes(wurzel);
 	printf("\n");
 	listNodes_struct(wurzel);
 	printf("\n");
+	listNodes_bottomToTop(wurzel);
+	printf("\n");
+	printf("\n\n");
 	return EXIT_SUCCESS;
 }

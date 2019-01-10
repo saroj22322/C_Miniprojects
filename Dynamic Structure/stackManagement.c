@@ -5,6 +5,7 @@ Programm mit Doppelt verkettete Listen und Stack Algorithem.
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h> // Für offsetof()
 #include <string.h>
 #define MAXNAME 40
 
@@ -24,7 +25,7 @@ typedef struct person {
 //SUCCESS = 0 und FAILURE = 1
 enum {SUCCESS, FAILURE};
 
-per *anfang, *end, *str_ptr;
+per *anfang, *end, *stack_ptr;
 
 //Static id wert
 uint _id;
@@ -43,7 +44,7 @@ int main(int argc, char* argv[]) {
 	anhaengen(_id,"Manish Bhatt",23);
 	anhaengen(_id,"Bimal Adhikari",29);
 	anhaengen(_id,"Santosh Tripathi",24);
-	sortieren(1,1);
+	sortieren(2,1);
 	per *zeiger = anfang;
 	while(zeiger != NULL) {
 		printf("%u  %s  %u\n", zeiger->id, zeiger->name, zeiger->alter);
@@ -146,15 +147,10 @@ int comp(per* zeiger, per* zeiger1, uint basis, int mode) {
 	cmp = cmp * mode; // Mode -1 für Absteigen kann Vorzeichen wechseln
 	per help;
 	if(cmp == 1) {
-		help.id = zeiger1->id;
-		strncpy(help.name,zeiger1->name,MAXNAME);
-		help.alter = zeiger1->alter;
-		zeiger1->id = zeiger->id;
-		strncpy(zeiger1->name,zeiger->name,MAXNAME);
-		zeiger1->alter = zeiger->alter;
-		zeiger->id = help.id;
-		strncpy(zeiger->name,help.name,MAXNAME);
-		zeiger->alter = help.alter;
+		uint memToCopy = offsetof(per,next);
+		memcpy(&help,zeiger1,memToCopy);
+		memcpy(zeiger1,zeiger,memToCopy);
+		memcpy(zeiger,&help,memToCopy);
 	}
 	return SUCCESS;
 }
